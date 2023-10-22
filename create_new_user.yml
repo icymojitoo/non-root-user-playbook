@@ -1,0 +1,50 @@
+---
+- hosts: linode
+
+  vars_files:
+    - vars/secret.yml
+  tasks:
+  - name: Add new User
+    user:
+      name: "{{ username }}"
+      password: "{{ password }}"
+      shell: /bin/bash
+      groups: sudo
+      append: yes
+      state: present
+
+  - name: add ssh public key for the new user
+    ansible.posix.authorized_key:
+      user: "{{ username }}"
+      exclusive: yes
+      key: "{{ lookup('file', ssh_public_key_file) }}"
+      state: present
+
+  - name: check if file exists 
+    stat:
+      path: /etc/sudoers.d/{{ username }}
+    register: file_data
+    changed_when: no
+
+  - name: Setup sudo Command Without Password
+    shell: echo "{{ username }} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/{{ username }}
+    args:
+      executable: /bin/bash
+    when: not file_data.stat.exists
+
+  - name: Check ssh policies
+    shell: grep -Fxq 'PermitRootLogin yes' /etc/ssh/sshd_config
+    register: ssh_check
+    ignore_errors: yes
+    changed_when: no
+
+  - name: Setup ssh policies
+    script: ssh_policies.sh
+    when: ssh_check.rc == 0
+    notify: Restart sshd
+
+  handlers:
+    - name: Restart sshd 
+      service:
+        name: sshd 
+        state: restarted

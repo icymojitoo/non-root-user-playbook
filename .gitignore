@@ -1,0 +1,31 @@
+# Compiled source #
+__pycache__/
+
+# Environments #
+env/
+venv/
+
+# Workspace
+codealong.code-workspace
+
+# Config files
+devops/.config/*
+
+# Terraform state
+.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfplan
+*.tfout
+
+# Ignore all .DS_Store files in the repository
+**/.DS_Store
+
+# Ignore all .env files in the repository
+.env
+**/creds/credentials.json
+**/creds/token.json
+**/creds/token.pickle
+
+notebooks/langchain/emails.csv
+Notes/

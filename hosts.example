@@ -1,8 +1,2 @@
-[localhost]
-localhost ansible_connection=local
-
-# Add your hosts here
 [web]
 web1 ansible_ssh_host=192.0.0.1
-ansible_ssh_user=root
-ansible_ssh_pass=passw0rd

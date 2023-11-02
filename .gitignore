@@ -8,6 +8,12 @@ venv/
 # Workspace
 codealong.code-workspace
 
+# Ansible
+hosts
+ansible.cfg
+*.pem
+*.pem
+
 # Config files
 devops/.config/*
 

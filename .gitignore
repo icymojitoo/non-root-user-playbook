@@ -33,5 +33,10 @@ devops/.config/*
 **/creds/token.json
 **/creds/token.pickle
 
+# Config
+*/keys/*.txt
+*/keys/*.pem
+*/keys/*.pub
+
 notebooks/langchain/emails.csv
 Notes/
